@@ -1,0 +1,23 @@
+{
+    "name": "vulcanphp/phpadmin",
+    "description": "PhpAdmin is a simple, lightweight and easy dashboard for VulcanPhp micro mvc framework",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "VulcanPhp\\PhpAdmin\\": "src/"
+        },
+        "files": [
+            "src/includes/functions.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Shahin Moyshan",
+            "email": "freelance.shain@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "maxmind-db/reader": "^1.11"
+    }
+}
