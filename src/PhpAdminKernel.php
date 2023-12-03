@@ -15,8 +15,14 @@ class PhpAdminKernel implements IKernel
     public function boot(): void
     {
         // set default config
-        if (empty(config('phpadmin')))
+        if (empty(config('phpadmin'))) {
             $this->checkConfig();
+        }
+
+        // PhpAdmin Installer
+        if (config('phpadmin.installer', false)) {
+            $this->renderInstaller();
+        }
 
         // setup SimpleAuth Extension
         SimpleAuth::setup();
@@ -25,11 +31,6 @@ class PhpAdminKernel implements IKernel
             stripos(url()->path(), config('phpadmin.prefix')) !== false
             && !in_array(true, array_map(fn ($ignore) => stripos(url()->path(), $ignore) !== false, config('phpadmin.ignore', [])))
         ) {
-            // PhpAdmin Installer
-            if (config('phpadmin.installer', false)) {
-                $this->renderInstaller();
-            }
-
             // PhpAdmin Setup
             if (empty(config('phpadmin.require_auth')) || (!empty(config('phpadmin.require_auth')) && auth()->isLogged())) {
                 // init translator
