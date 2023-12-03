@@ -109,7 +109,7 @@
 
             <!-- Footer Menu <START> -->
             <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <?php foreach (parse_phpcm_menu_items((array) phpcm('footer', 'menu_items')) as $menu) : ?>
+                <?php foreach (parse_phpcm_menu_items((array) phpcm('footer', 'footer_menu')) as $menu) : ?>
                     <li class="nav-item"><a href="<?= is_url($menu['menu_url']) ? $menu['menu_url'] : home_url($menu['menu_url']) ?>" class="nav-link px-2 text-body-secondary"><?= $menu['menu_title'] ?></a></li>
                 <?php endforeach ?>
             </ul>

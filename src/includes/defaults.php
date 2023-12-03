@@ -1,5 +1,6 @@
 <?php
 
+use VulcanPhp\PhpAdmin\Models\Page;
 use VulcanPhp\PhpAdmin\Models\Profile;
 use VulcanPhp\PhpAdmin\Models\Settings;
 
@@ -87,7 +88,7 @@ if (hasRights('edit')) {
             'description' => 'Manage Site Footer Content Settings',
             'options' => [
                 ['field' => 'addEditor', 'height' => 100, 'name' => 'copyright_text'],
-                ['field' => 'addPhpCmTable', 'name' => 'social_menu_items', 'columns' => ['platform'], 'fields' => [['type' => 'select', 'name' => 'platform', 'options' => ['facebook' => 'Facebook', 'twitter' => 'Twitter', 'youtube' => 'Youtube', 'linkedin' => 'Linkedin']], ['type' => 'text', 'name' => 'menu_url', 'placeholder' => 'Enter Social Media Link Url']], 'config' => ['title' => 'Social Menu Items']],
+                ['field' => 'addPhpCmTable', 'name' => 'footer_menu', 'columns' => ['page'], 'fields' => [['type' => 'select', 'name' => 'page', 'options' => Page::list()]], 'config' => ['title' => 'Footer Menu Items']],
             ]
         ]);
 
