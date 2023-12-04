@@ -50,11 +50,16 @@ class PhpAdminKernel implements IKernel
                 redirect(auth_url('login'));
             }
         } else {
-            // put visitor information
-            (new VisitorController)->newVisitor();
 
-            // fallback to PhpPage from database
-            router()->setFallback([new PublicController, 'index']);
+            if (phpadmin_enabled('analytics')) {
+                // put visitor information
+                (new VisitorController)->newVisitor();
+            }
+
+            if (phpadmin_enabled('pages')) {
+                // fallback to PhpPage from database
+                router()->setFallback([new PublicController, 'index']);
+            }
         }
     }
 
@@ -85,7 +90,8 @@ class PhpAdminKernel implements IKernel
                 'installer' => true,
                 'prefix' => '/admin/',
                 'ignore' => [],
-                'require_auth' => ['admin', 'editor']
+                'require_auth' => ['admin', 'editor'],
+                'disabled' => [],
             ];
             EOT
         );

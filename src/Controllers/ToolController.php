@@ -22,7 +22,7 @@ class ToolController extends Controller
     public function setting(?string $active = null)
     {
         $settings =  phpadmin()->getSettings();
-        $active   = $active ?? 'general';
+        $active   = $active ?? array_keys($settings)[0];
         $setting  = $settings[$active] ?? null;
 
         if ($setting === null) {

@@ -89,7 +89,7 @@
 
             <div class="w-4/12">
                 <div class="flex items-center w-max mr-0 ml-auto p-2">
-                    <?php if (isSuperAdmin()) : ?>
+                    <?php if (!empty(phpadmin()->getSettings()) && isSuperAdmin()) : ?>
                         <div class="ml-auto mr-6 relative">
                             <a href="<?= phpadmin_url('tools/settings') ?>" class="text-gray-700 cursor-pointer flex items-center">
                                 <?= icon('cog', ['class' => 'text-2xl']) ?>
@@ -109,7 +109,9 @@
                                         <p class="font-semibold text-sm uppercase"><?= user()->getDisplayName() ?></p>
                                         <p class="text-sm text-gray-600">@<?= VulcanPhp\Core\Helpers\Str::read(user('role')) ?></p>
                                         <div class="flex mt-3">
-                                            <a href="<?= settings_url('profile') ?>" class="mr-2 bg-amber-400 px-2 p-1 rounded inline-block text-white text-xs hover:text-white hover:bg-amber-500"><?= translate('Edit') ?></a>
+                                            <?php if (phpadmin_enabled('settings.profile')) : ?>
+                                                <a href="<?= settings_url('profile') ?>" class="mr-2 bg-amber-400 px-2 p-1 rounded inline-block text-white text-xs hover:text-white hover:bg-amber-500"><?= translate('Edit') ?></a>
+                                            <?php endif ?>
                                             <form action="<?= auth_url('logout') ?>" method="post">
                                                 <?= csrf() ?>
                                                 <button type="submit" class="bg-red-400 px-2 p-1 rounded inline-block text-white text-xs hover:text-white hover:bg-red-500"><?= translate('Logout') ?></button>

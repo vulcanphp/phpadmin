@@ -11,6 +11,7 @@ class VisitorController
     // put all visitor record except these paths
     protected array $except = [
         '/admin/*',
+        '/api/*',
     ];
 
     public function newVisitor(): void

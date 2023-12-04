@@ -133,6 +133,21 @@ if (!function_exists('phpadmin_layout_dir')) {
     }
 }
 
+if (!function_exists('phpadmin_enabled')) {
+    function phpadmin_enabled(string $key): bool
+    {
+        if (strpos($key, '.') !== false) {
+            $stage  = substr($key, 0, strpos($key, '.'));
+            $key    = substr($key, strpos($key, '.') + 1);
+            $map    = config('phpadmin.disabled.' . $stage, []);
+        } else {
+            $map = config('phpadmin.disabled', []);
+        }
+
+        return !in_array($key, $map);
+    }
+}
+
 if (!function_exists('phpadmin_resource')) {
     function phpadmin_resource(string $url)
     {

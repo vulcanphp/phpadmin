@@ -15,11 +15,15 @@ class PhpAdminController extends Controller
 {
     public function index()
     {
-        phpadmin()
-            ->addWidget(['icon' => 'user', 'text' => 'Total Users', 'count' => User::Cache()->load('total', fn () => User::total())])
-            ->addWidget(['icon' => 'file-blank', 'text' => 'Number of Pages', 'count' => Page::Cache()->load('total', fn () => Page::total())]);
+        if (phpadmin_enabled('users')) {
+            phpadmin()->addWidget(['icon' => 'user', 'text' => 'Total Users', 'count' => User::Cache()->load('total', fn () => User::total())]);
+        }
 
-        if (isSuperAdmin() && setting('enabled_visitor_analytics') === 'true') {
+        if (phpadmin_enabled('pages')) {
+            phpadmin()->addWidget(['icon' => 'file-blank', 'text' => 'Number of Pages', 'count' => Page::Cache()->load('total', fn () => Page::total())]);
+        }
+
+        if (phpadmin_enabled('analytics') && isSuperAdmin() && setting('enabled_visitor_analytics') === 'true') {
             Visitor::check();
 
             phpadmin()
