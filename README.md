@@ -1,8 +1,8 @@
 # PhpAdmin
 PhpAdmin is a simple, lightweight and easy dashboard for VulcanPhp micro mvc framework
 
-
-
+![dashboard](https://github.com/vulcanphp/phpadmin/assets/128284645/7ccfee72-3f4a-40a1-b871-b63d44ac3b30)
+![page-builder](https://github.com/vulcanphp/phpadmin/assets/128284645/ce91cb93-bccc-4792-a785-3ec9f2659004)
 
 ## What is PhpAdmin
 PhpAdmin is more than a admin dashboard, it has most used functionality <br />
