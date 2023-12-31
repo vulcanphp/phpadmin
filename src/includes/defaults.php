@@ -49,6 +49,7 @@ if (isSuperAdmin()) {
             'callback' => [(new Settings)->load(setting()->Collect()->all()), 'SyncOptions'],
             'form_fields' => array_filter([
                 phpadmin_enabled('analytics') ? ['field' => 'addInput', 'type' => 'checkbox', 'label' => 'Enable/Disable Integrated Visitor Analytics: ', 'input_style' => 'flex select-none', 'class' => 'ml-2', 'name' => 'enabled_visitor_analytics'] : null,
+                ['field' => 'addInput', 'label' => true, 'name' => 'maxmind_api_key', 'placeholder' => 'Enter MaxMin Api Key: '],
                 ['field' => 'addTextarea', 'label' => true, 'name' => 'google_analytics_code', 'placeholder' => 'Enter Google or Third Party Analytics Code here: '],
             ]),
         ] : []);

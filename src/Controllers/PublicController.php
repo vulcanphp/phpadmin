@@ -41,7 +41,11 @@ class PublicController
                 ]);
             }
 
-            echo phpadmin_view('public.page', ['post' => $post]);
+            if (file_exists(resource_dir('views/public/page.php'))) {
+                echo view('public.page', ['post' => $post]);
+            } else {
+                echo phpadmin_view('public.page', ['post' => $post]);
+            }
         }
 
 

@@ -1,0 +1,21 @@
+
+
+**Disabled Options:**
+'analytics', // integrated analytics
+'quicklinks',
+'users',
+'pages',
+'tools' => [
+	'cms',
+	'menu',
+	'filemanager',
+	'i18n',
+	'backup',
+	'reset',
+],
+'settings' => [
+	'general',
+	'profile',
+	'widget',
+	'analytics', // google analytics
+]

@@ -80,15 +80,20 @@ class Whoer
 
     protected function download_geoip(): void
     {
-        $log_file = __DIR__ . '/etc/api.log';
-        if (file_exists($log_file) && (json_decode(file_get_contents($log_file), true)['error'] ?? false) === false) {
+        $log_file   = __DIR__ . '/etc/api.log';
+        $key        = trim(setting('maxmind_api_key', ''));
+
+        if (empty($key) && is_dev()) {
+            throw new Exception('MaxMin Api Key does not specified');
+        }
+
+        if (!empty($key) && file_exists($log_file) && (json_decode(file_get_contents($log_file), true)['error'] ?? false) === false) {
             try {
-                $keys = json_decode(file_get_contents(__DIR__ . '/etc/keys.json'));
                 $download = __DIR__ . '/etc/GeoLite2-Country.tar.gz';
                 $http = EasyCurl::setDownloadFile($download, true)->get('https://download.maxmind.com/app/geoip_download', [
                     'edition_id' => 'GeoLite2-Country',
                     'suffix' => 'tar.gz',
-                    'license_key' => $keys[array_rand($keys)]
+                    'license_key' => $key
                 ]);
                 if ($http->status() === 200 && file_exists($download)) {
                     try {
