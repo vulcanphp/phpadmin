@@ -15,9 +15,4 @@ class Settings extends Option
     {
         return 'settings';
     }
-
-    public function labels(): array
-    {
-        return [];
-    }
 }

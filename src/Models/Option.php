@@ -33,15 +33,6 @@ class Option extends Model
         return ['name', 'type', 'value'];
     }
 
-    public function labels(): array
-    {
-        return [
-            'name'  => 'Option Name',
-            'type'  => 'Option Group/Type',
-            'value' => 'Option Data',
-        ];
-    }
-
     public function rules(): array
     {
         return [

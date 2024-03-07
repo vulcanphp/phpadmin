@@ -29,9 +29,10 @@ if (phpadmin_enabled('settings.general') && isSuperAdmin()) {
 if (phpadmin_enabled('settings.profile')) {
     phpadmin()->addSetting('profile', is_current_setting('profile') || $setting_index ? [
         'title' => 'My Profile Settings',
-        'callback' => [(new Profile)->load(['name' => user('name'), 'username' => user('username'), 'email' => user('email'), 'language' => user()->meta('language')]), 'saveProfile'],
+        'callback' => [(new Profile)->load(['name' => user('name'), 'username' => user('username'), 'email' => user('email'), 'language' => user()->meta('language'), 'avatar' => user()->meta('avatar')]), 'saveProfile'],
         'form_fields' => [
-            ['field' => 'addInput', 'name' => 'name', 'input_after' => '<a target="_blank" rel="noreferrer nofollow" href="https://en.gravatar.com/connect/" class="mt-2 text-sm block">' . translate('Click here to change profile picture.') . '</a>'],
+            ['field' => 'addMedia', 'name' => 'avatar', 'description' => 'Choose or Upload Avatar'],
+            ['field' => 'addInput', 'name' => 'name'],
             ['field' => 'addInput', 'name' => 'username'],
             ['field' => 'addInput', 'type' => 'email', 'name' => 'email'],
             ['field' => 'addInput', 'type' => 'password', 'name' => 'oldPassword', 'label' => true, 'placeholder' => 'Old Password'],
@@ -49,7 +50,7 @@ if (isSuperAdmin()) {
             'callback' => [(new Settings)->load(setting()->Collect()->all()), 'SyncOptions'],
             'form_fields' => array_filter([
                 phpadmin_enabled('analytics') ? ['field' => 'addInput', 'type' => 'checkbox', 'label' => 'Enable/Disable Integrated Visitor Analytics: ', 'input_style' => 'flex select-none', 'class' => 'ml-2', 'name' => 'enabled_visitor_analytics'] : null,
-                ['field' => 'addInput', 'label' => true, 'name' => 'maxmind_api_key', 'placeholder' => 'Enter MaxMin Api Key: '],
+                ['field' => 'addInput', 'label' => true, 'name' => 'maxmind_api_key', 'placeholder' => 'Enter MaxMind License Key: '],
                 ['field' => 'addTextarea', 'label' => true, 'name' => 'google_analytics_code', 'placeholder' => 'Enter Google or Third Party Analytics Code here: '],
             ]),
         ] : []);
@@ -79,21 +80,10 @@ if (hasRights('edit')) {
     if (phpadmin_enabled('tools.cms')) {
         // register PhpCm default options
         phpadmin()
-            ->addPhpCm('homepage', [
-                'icon' => 'home',
-                'title' => 'Homepage',
-                'selected' => true,
-                'heading' => 'Homepage Settings',
-                'description' => 'Manage Site Homepage Content Settings',
-                'options' => [
-                    ['field' => 'addInput', 'name' => 'heading'],
-                    ['field' => 'addTextarea', 'height' => 100, 'name' => 'intro'],
-                    ['field' => 'addMedia', 'name' => 'banner', 'description' => 'Choose & Upload Homepage Hero Banner'],
-                ]
-            ])
             ->addPhpCm('footer', [
                 'icon' => 'bxs.dock-bottom',
                 'title' => 'Footer',
+                'selected' => true,
                 'heading' => 'Footer Settings',
                 'description' => 'Manage Site Footer Content Settings',
                 'options' => [

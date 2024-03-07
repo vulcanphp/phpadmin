@@ -24,7 +24,7 @@ class EditorController extends Controller
         if ($post->editor === 'builder') {
 
             if (input('_phppage_action') == 'asset_manager') {
-                return $this->elementor_asset_manager();
+                return $this->phppage_asset_manager();
             }
 
             $builder = new PhpPage($post);
@@ -59,10 +59,10 @@ class EditorController extends Controller
         return response()->back();
     }
 
-    public function elementor_asset_manager()
+    public function phppage_asset_manager()
     {
         if (input('action') == 'upload') {
-            $file = input()->file('files');
+            $file = input()->getFile('files');
             if (in_array($file->getExtension(), ['jpg', 'jpeg', 'png', 'gif', 'svg']) && $file->getSize() < (1048576 * 3)) {
 
                 if (!is_dir(PhpPageConfig::PB_STORAGE_PATH)) {

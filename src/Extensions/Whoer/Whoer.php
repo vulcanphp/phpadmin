@@ -58,7 +58,7 @@ class Whoer
     public function country(?string $ip = null): ?string
     {
         if ($ip === null) {
-            $ip = request()->ip();
+            $ip = request()->getIp();
         }
 
         $file = File::choose(__DIR__ . '/etc/GeoLite2-Country.mmdb');

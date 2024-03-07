@@ -28,8 +28,8 @@ class PhpAdminKernel implements IKernel
         SimpleAuth::setup();
 
         if (
-            stripos(url()->path(), config('phpadmin.prefix')) !== false
-            && !in_array(true, array_map(fn ($ignore) => stripos(url()->path(), $ignore) !== false, config('phpadmin.ignore', [])))
+            stripos(url()->getPath(), config('phpadmin.prefix')) !== false
+            && !in_array(true, array_map(fn ($ignore) => stripos(url()->getPath(), $ignore) !== false, config('phpadmin.ignore', [])))
         ) {
             // PhpAdmin Setup
             if (empty(config('phpadmin.require_auth')) || (!empty(config('phpadmin.require_auth')) && auth()->isLogged())) {
@@ -46,7 +46,7 @@ class PhpAdminKernel implements IKernel
                 // require default dashboard menu settings
                 require_once __DIR__ . '/includes/defaults.php';
                 // end..
-            } elseif (auth()->isGuest() && !in_array(url()->path(), auth_actions())) {
+            } elseif (auth()->isGuest() && !in_array(url()->getPath(), auth_actions())) {
                 redirect(auth_url('login'));
             }
         } else {

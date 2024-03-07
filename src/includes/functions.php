@@ -311,7 +311,7 @@ if (!function_exists('parse_phpcm_menu_items')) {
 
         $pages = Page::Cache()
             ->load(
-                'footer_menu' . join('_', $pages),
+                'cached_menu' . join('_', $pages),
                 fn () => Page::select('id, title, slug')
                     ->whereIn('id', $pages)
                     ->fetch(\PDO::FETCH_ASSOC)

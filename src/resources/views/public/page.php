@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?= __lang() ?>" data-bs-theme="dark">
+<html lang="<?= __lang() ?>" data-bs-theme="light">
 
 <head>
 

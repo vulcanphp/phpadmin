@@ -6,7 +6,7 @@ use VulcanPhp\Core\Helpers\Arr;
 
 use VulcanPhp\PhpAdmin\Extensions\QForm\QForm;
 use VulcanPhp\PhpAdmin\Models\Option;
-use VulcanPhp\PhpRouter\Http\Url;
+use VulcanPhp\InputMaster\Url;
 use VulcanPhp\SimpleDb\Model\BaseModel;
 
 class PhpCmOptions

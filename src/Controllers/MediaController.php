@@ -148,7 +148,7 @@ class MediaController extends Controller
         if (input()->hasFile('upload')) {
 
             $folder   = 'CK-Upload-' . Time::format('now', 'F-Y');
-            $filename = input()->file('upload')->getFilename();
+            $filename = input()->getFile('upload')->getFilename();
             $parent   = null;
 
             if (is_dir(storage()->getPath() . DIRECTORY_SEPARATOR . $folder)) {

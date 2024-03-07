@@ -2,7 +2,7 @@
 
 namespace VulcanPhp\PhpAdmin\Extensions\Bread;
 
-use VulcanPhp\PhpAdmin\Extensions\DTS\DTS;
+use VulcanPhp\PhpAdmin\Extensions\DataTable\DataTable;
 use VulcanPhp\PhpAdmin\Extensions\QForm\QForm;
 use VulcanPhp\PhpRouter\Routing\Interfaces\IResource;
 use VulcanPhp\PhpRouter\Routing\IRoute;
@@ -34,7 +34,7 @@ class BreadController extends Controller implements IResource
             return view($this->config()->getViewMap('index'));
         }
 
-        DTS::Enqueue();
+        DataTable::Enqueue();
 
         $config = ['columns' => $this->config()->getConfig('columns'), 'actions' => $this->config()->getConfig('actions', [])['index'] ?? []];
 
@@ -81,7 +81,7 @@ class BreadController extends Controller implements IResource
             return $this->create();
         }
 
-        return response()->redirect(url(request()->route()->action() . '.create')->absoluteUrl());
+        return response()->redirect(url($this->route->getAction() . '.create')->absoluteUrl());
     }
 
     public function create()
@@ -96,7 +96,7 @@ class BreadController extends Controller implements IResource
             $form->{$field['field']}($field);
         }
 
-        $form->formAttr(['method' => 'post', 'action' => url(request()->route()->action() . '.store')->absoluteUrl()])
+        $form->formAttr(['method' => 'post', 'action' => url($this->route->getAction() . '.store')->absoluteUrl()])
             ->submit(['name' => 'Create New', 'center' => true]);
 
         if ($this->config()->getViewMap('create') !== null) {
@@ -132,7 +132,7 @@ class BreadController extends Controller implements IResource
             $form->{$field['field']}($field);
         }
 
-        $form->formAttr(['method' => 'put', 'action' => url(request()->route()->action() . '.update', ['id' => $id])->absoluteUrl()])
+        $form->formAttr(['method' => 'put', 'action' => url($this->route->getAction() . '.update', ['id' => $id])->absoluteUrl()])
             ->submit(['name' => 'Update', 'center' => true]);
 
         if ($this->config()->hasFilter('edit')) {
@@ -166,7 +166,7 @@ class BreadController extends Controller implements IResource
             }
         }
 
-        return response()->redirect(url(request()->route()->action() . '.edit', ['id' => $id])->absoluteUrl());
+        return response()->redirect(url($this->route->getAction() . '.edit', ['id' => $id])->absoluteUrl());
     }
 
     public function destroy($id)
@@ -192,7 +192,7 @@ class BreadController extends Controller implements IResource
             return $this->config()->applyOverride('data');
         }
 
-        $ssp = DTS::model($this->config()->getModel()::class);
+        $ssp = DataTable::model($this->config()->getModel()::class);
         $formatter = (array)$this->config()->getConfig('formatter');
 
         foreach ($this->config()->getConfig('columns') as $column) {
@@ -223,7 +223,7 @@ class BreadController extends Controller implements IResource
             }
         }
 
-        $ssp->column(($ssp->hasJoins() ? 'p.' : '') . 'id', fn ($id) => $ssp->module('action', ['id' => $id, 'options' => array_merge($this->config()->getConfig('action_before', []), ['show', 'edit', 'destroy' => true]), 'route' => request()->route()->action()]));
+        $ssp->column(($ssp->hasJoins() ? 'p.' : '') . 'id', fn ($id) => $ssp->module('action', ['id' => $id, 'options' => array_merge($this->config()->getConfig('action_before', []), ['show', 'edit', 'destroy' => true]), 'route' => $this->route->getAction()]));
 
         if (!empty($this->config()->getCondition())) {
             $ssp->where($this->config()->getCondition());

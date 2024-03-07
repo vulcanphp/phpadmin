@@ -22,7 +22,7 @@ class VisitorController
 
             if (!empty(trim(strval(request()->userAgent()))) && !$client->isBot() && strlen(url()->relativeUrl()) <= 200) {
                 try {
-                    $ip = inet_aton(request()->ip());
+                    $ip = inet_aton(request()->getIp());
                     $country = $client->country();
                     if ($country !== null && $ip !== false) {
                         Visitor::create([

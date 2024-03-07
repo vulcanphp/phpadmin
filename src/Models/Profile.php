@@ -7,7 +7,7 @@ use App\Models\UserMeta;
 
 class Profile extends User
 {
-    public $oldPassword, $confirmPassword, $language;
+    public $oldPassword, $confirmPassword, $language, $avatar;
 
     public function labels(): array
     {
@@ -70,7 +70,7 @@ class Profile extends User
                 $saved_profile = true;
             }
 
-            if (UserMeta::saveMeta(['language' => $this->language], $this->id)) {
+            if (UserMeta::saveMeta(['language' => $this->language, 'avatar' => $this->avatar], $this->id)) {
                 $saved_profile = true;
             }
         }
