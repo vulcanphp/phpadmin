@@ -3,6 +3,7 @@
 use VulcanPhp\Core\Helpers\Str;
 use VulcanPhp\Core\Helpers\Time;
 use App\Models\User;
+use App\Models\UserMeta;
 use VulcanPhp\PhpAdmin\Extensions\Bread\Bread;
 use VulcanPhp\PhpAdmin\Models\Page;
 use VulcanPhp\PhpAdmin\Controllers\ToolController;
@@ -16,8 +17,12 @@ Route::get('/', [PhpAdminController::class, 'index'])->setName('home');
 Route::form('/tools/settings/{setting?}', [ToolController::class, 'setting'])->setName('setting');
 
 if (phpadmin_enabled('pages')) {
-    Route::options('/pages/clone/{id}/', [PhpAdminController::class, 'clone'])->setName('pages.clone');
-    Route::form('/editor/{slug?}', [EditorController::class, 'index'])->setName('editor');
+    Route::options('/pages/clone/{id}/', [PhpAdminController::class, 'clonePage'])->setName('pages.clone');
+    Route::form('/editor/{slug?}', [EditorController::class, 'edit'])->setName('editor');
+}
+
+if (phpadmin_enabled('tools.sitekit')) {
+    Route::form('/tools/sitekit/', [PhpAdminController::class, 'siteKit']);
 }
 
 if (phpadmin_enabled('tools.i18n')) {
@@ -55,10 +60,13 @@ if (phpadmin_enabled('users') && isSuperAdmin()) {
                 'title'    => 'Users',
                 'icon'     => 'user',
             ],
-            'columns'   => ['id', 'photo', 'name', 'email', 'role', 'joinded_at'],
+            'columns'   => ['p.id', 'avatar', 'p.name', 'p.email', 'p.role', 'p.joinded_at'],
             'formatter' => [
-                'photo'      => ['email', fn ($email, $rows, $ssp) => $ssp->module('avatar', gravatar($email))],
-                'joinded_at' => ['created_at', fn ($datetime) => Time::format($datetime)]
+                'avatar'      => ['t1.value', fn ($avatar, $rows, $ssp) => $ssp->module('avatar', isset($avatar) ? storage_url($avatar) : gravatar($rows[3]))],
+                'p.joinded_at' => ['p.created_at', fn ($datetime) => Time::format($datetime)]
+            ],
+            'joins' => [
+                'left' => [UserMeta::tableName(), 't1.user = p.id AND t1.meta_key = "avatar"']
             ],
             'form_fields' => url()->contains('/users/') ? [
                 ['field' => 'addInput', 'name' => 'name', 'label' => 'User\'s Information'],

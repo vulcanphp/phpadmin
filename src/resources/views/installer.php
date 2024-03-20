@@ -30,7 +30,9 @@
         }
     }
 
-    if (config('phpadmin.installer', false) !== true) return js_safe_redirect(auth_url('login'));
+    if (config('phpadmin.installer', false) !== true) {
+        return js_safe_redirect(auth_url('login'));
+    }
 
     if (!is_writable(root_dir('/config/')) && !chmod(root_dir('/config/'), 0777)) {
         echo "Cannot change the mode of config file..";
@@ -93,29 +95,32 @@
             file_get_contents($file)
         );
 
-        if (file_put_contents($file, $config))
+        if (file_put_contents($file, $config)) {
             return js_safe_redirect(url()->setParam('action', 'migration')->relativeUrl());
-        else
+        } else {
             return show_config_error($config, $file, url()->setParam('action', 'migration')->relativeUrl());
+        }
     } elseif (request()->isMethod('post') && input('action') === 'user') {
         $user = new User;
         $user->name = 'Super Admin';
         $user->role = 'admin';
         $user->erase(['username' => input('username')]);
 
-        if ($user->inputValidate() && $user->save())
+        if ($user->inputValidate() && $user->save()) {
             return js_safe_redirect(url()->setParam('action', 'setup')->relativeUrl());
-        else
+        } else {
             return js_safe_redirect(url()->setParam('action', 'error')->setParam('message', "Failed! to create new user, " . $user->errorField() . ': ' . $user->firstError())->relativeUrl());
+        }
     } elseif (request()->isMethod('post') && input('action') === 'setup') {
         Option::saveOptions(input()->all(['site_title', 'site_slogan', 'site_description', 'site_language']), 'settings');
         $file = root_dir('/config/phpadmin.php');
         $config = str_ireplace("'installer' => true", "'installer' => false", file_get_contents($file));
 
-        if (file_put_contents($file, $config))
+        if (file_put_contents($file, $config)) {
             return js_safe_redirect(auth_url('login'));
-        else
+        } else {
             return show_config_error($config, $file, auth_url('login'));
+        }
     }
 
     ?>

@@ -121,9 +121,7 @@
     ! function() {
         function t() {
             ! function() {
-                var i = 0;
                 for (var t in window.themeBlocks) {
-                    i++;
                     var e = window.themeBlocks[t],
                         n = $("<container>").append(e.content);
                     n.find("[phpb-blocks-container]").each(function() {
@@ -135,7 +133,7 @@
                         id: cat_id,
                         label: window.categoryIcon[cat_id] ?? cat_title,
                         order: window.categoryOrder[cat_id] ?? null,
-                        open: i == 1
+                        open: window.defaultCategory == window.categoryOrder[cat_id]
                     }
                     
                     editor.BlockManager.add(t, e);

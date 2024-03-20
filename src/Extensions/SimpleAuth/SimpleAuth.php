@@ -35,7 +35,9 @@ class SimpleAuth
             });
 
             // logout route
-            Route::post(config('auth.urls.logout'), [AuthController::class, 'logout'])->setName('logout');
+            if (auth_enabled('logout')) {
+                Route::post(config('auth.urls.logout'), [AuthController::class, 'logout'])->setName('logout');
+            }
         });
     }
 }

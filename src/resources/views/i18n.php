@@ -1,7 +1,5 @@
 <?php
 
-use VulcanPhp\PhpAdmin\Extensions\QForm\Manager\JsonEditor;
-
 $this->layout('layout')
     ->block('title', 'i18n');
 
@@ -36,7 +34,14 @@ $selected = 0;
             <input type="hidden" name="lang" value="<?= $files[$selected]->name() ?>">
             <?php $json = json_decode($files[$selected]->getContent(), true);
             ksort($json); ?>
-            <?= JsonEditor::place(['id' => 'i18n', 'name' => 'json', 'height' => 580, 'value' => json_encode($json)]) ?>
+            <?php
+            \VulcanPhp\PhpAdmin\Extensions\QForm\Manager\JsonEditor::place([
+                'id' => 'i18n',
+                'name' => 'json',
+                'height' => 580,
+                'value' => json_encode($json)
+            ])
+            ?>
         </form>
 
     <?php else : ?>

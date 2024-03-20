@@ -8,10 +8,6 @@ class PhpPageThemeBlock
 
     public function __construct(protected string $path, protected string $blockSlug)
     {
-        if (!file_exists($this->getFolder())) {
-            $this->path = __DIR__ . '/../resources';
-        }
-
         if (file_exists($this->getFolder() . '/config.php')) {
             $this->config = require $this->getFolder() . '/config.php';
         }
@@ -118,7 +114,7 @@ class PhpPageThemeBlock
      */
     public function getThumbPath($ext = 'jpg')
     {
-        return $this->path . '/assets/block-thumbs/' . $this->blockSlug . '.' . $ext;
+        return $this->path . '/block-thumbs/' . $this->blockSlug . '.' . $ext;
     }
 
     public function getThumbUrl($ext = 'jpg')

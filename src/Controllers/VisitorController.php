@@ -14,6 +14,12 @@ class VisitorController
         '/api/*',
     ];
 
+    public static function visit(): void
+    {
+        (new self)
+            ->newVisitor();
+    }
+
     public function newVisitor(): void
     {
         if (setting('enabled_visitor_analytics') === 'true' && !$this->skip()) {

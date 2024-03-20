@@ -4,7 +4,7 @@ namespace VulcanPhp\PhpAdmin;
 
 use Exception;
 use VulcanPhp\Core\Foundation\Interfaces\IKernel;
-use VulcanPhp\PhpAdmin\Controllers\PublicController;
+use VulcanPhp\PhpAdmin\Controllers\EditorController;
 use VulcanPhp\PhpAdmin\Controllers\VisitorController;
 use VulcanPhp\PhpAdmin\Extensions\SimpleAuth\SimpleAuth;
 use VulcanPhp\Translator\Manager\TranslatorFileManager;
@@ -36,7 +36,7 @@ class PhpAdminKernel implements IKernel
                 // init translator
                 Translator::$instance->getDriver()
                     ->setManager(new TranslatorFileManager([
-                        'convert'   => user()->meta('language', 'en'),
+                        'convert'   => user()->meta('language', config('app.language')),
                         'suffix'    => 'admin',
                         'local_dir' => config('app.language_dir'),
                     ]));
@@ -50,15 +50,15 @@ class PhpAdminKernel implements IKernel
                 redirect(auth_url('login'));
             }
         } else {
-
-            if (phpadmin_enabled('analytics')) {
-                // put visitor information
-                (new VisitorController)->newVisitor();
-            }
+            // put visitor information
+            VisitorController::visit();
 
             if (phpadmin_enabled('pages')) {
-                // fallback to PhpPage from database
-                router()->setFallback([new PublicController, 'index']);
+                // fallback to PhpPage from Database
+                router()->setFallback(function () {
+                    echo EditorController::render();
+                    exit;
+                });
             }
         }
     }
@@ -79,8 +79,9 @@ class PhpAdminKernel implements IKernel
 
     protected function checkConfig(): void
     {
-        if (!is_writable(root_dir('/config/')) && !chmod(root_dir('/config/'), 0777))
+        if (!is_writable(root_dir('/config/')) && !chmod(root_dir('/config/'), 0777)) {
             throw new Exception('PhpAdmin failed to setup default configuration..');
+        }
 
         file_put_contents(
             root_dir('/config/phpadmin.php'),
@@ -91,7 +92,7 @@ class PhpAdminKernel implements IKernel
                 'prefix' => '/admin/',
                 'ignore' => [],
                 'require_auth' => ['admin', 'editor'],
-                'disabled' => [],
+                'disabled' => ['tools' => ['cms', 'menu', 'reset']],
             ];
             EOT
         );

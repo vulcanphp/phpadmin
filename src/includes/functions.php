@@ -270,6 +270,13 @@ if (!function_exists('setting')) {
     }
 }
 
+if (!function_exists('sitekit')) {
+    function sitekit(...$args)
+    {
+        return setting()->get('sitekit', ...$args);
+    }
+}
+
 if (!function_exists('save_settings')) {
     function save_settings(...$args): bool
     {

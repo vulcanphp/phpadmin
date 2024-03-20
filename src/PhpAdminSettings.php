@@ -91,28 +91,51 @@ class PhpAdminSettings
         return $phpcm->prepare_menu_items($menu);
     }
 
-    public function getSubMenuWalker(array $menu, array $config = [], array $filters = []): string
-    {
+    public function getSubMenuWalker(
+        array $menu,
+        array $config = [],
+        array $filters = [],
+        int $limitDept = 1,
+        int &$dept = 1,
+        string &$output = ''
+    ) {
         $config = array_merge(['ul' => ['submenu'], 'li' => ['submenu-item'], 'a' => ['submenu-link']], $config);
-        ob_start();
-
-        echo sprintf('<ul class="%s">', join(' ', (array)$config['ul']));
+        $output .= sprintf(
+            '<ul class="%s %s" %s>',
+            join(' ', (array)($config['ul'] ?? [])),
+            $dept > 1 ? join(' ', (array)($config['ul:dropdown:class'] ?? [])) : '',
+            $dept > 1 ? join(' ', (array)($config['ul:dropdown:attribute'] ?? [])) : '',
+        );
 
         foreach ($menu as $item) {
-            $submenu = isset($item['submenu']) && !empty($item['submenu']);
-            echo sprintf('<li class="%s %s">', join(' ', (array)$config['li']), $submenu ? 'has-submenu' : '');
+            $submenu = isset($item['submenu']) && !empty($item['submenu']) && $limitDept > $dept;
+            $output .= sprintf(
+                '<li class="%s %s" %s>',
+                join(' ', (array)($config['li'] ?? [])),
+                $submenu ? join(' ', (array)($config['li:dropdown:class'] ?? [])) : '',
+                $submenu ? join(' ', (array)($config['li:dropdown:attribute'] ?? [])) : '',
+            );
 
-            echo sprintf('<a href="%s" class="%s">%s</a>', isset($filters['url']) ? $filters['url']($item) : $item['url'], join(' ', (array)$config['a']), isset($filters['title']) ? $filters['title']($item) : $item['title']);
+            $output .= sprintf(
+                '<a href="%s" class="%s %s" %s>%s</a>',
+                isset($filters['url']) ? $filters['url']($item) : $item['url'],
+                join(' ', (array)($config['a'] ?? [])),
+                $submenu ? join(' ', (array)($config['a:dropdown:class'] ?? [])) : '',
+                $submenu ? join(' ', (array)($config['a:dropdown:attribute'] ?? [])) : '',
+                isset($filters['title']) ? $filters['title']($item) : $item['title']
+            );
 
             if ($submenu) {
-                return $this->getSubMenuWalker($item['submenu'], (array)$config);
+                $dept++;
+                $this->getSubMenuWalker($item['submenu'], $config, $filters, $limitDept, $dept, $output);
             }
 
-            echo '</li>';
+            $output .= '</li>';
+            $dept = 1;
         }
 
-        echo '</ul>';
+        $output .= '</ul>';
 
-        return ob_get_clean();
+        return $output;
     }
 }

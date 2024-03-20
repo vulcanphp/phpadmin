@@ -70,7 +70,7 @@ if (phpadmin()->has('before_analytics')) {
 }
 ?>
 
-<?php if (phpadmin_enabled('analytics') && isSuperAdmin() && setting('enabled_visitor_analytics') === 'true') : ?>
+<?php if (isSuperAdmin() && setting('enabled_visitor_analytics') === 'true') : ?>
     <div class="mb-6 flex flex-wrap">
         <div class="md:w-8/12 w-full">
             <div id="monthly-chart" class="md:mr-6 mb-6 md:mb-0 shadow rounded bg-white"></div>
@@ -117,7 +117,7 @@ if (phpadmin()->has('after_analytics')) {
             </div>
         </div>
     <?php endif ?>
-    <?php if (phpadmin_enabled('analytics') && isSuperAdmin()) : ?>
+    <?php if (isSuperAdmin()) : ?>
         <div class="md:w-4/12 w-full">
             <?php if (setting('enabled_visitor_analytics') === 'true') : ?>
                 <div class="rounded shadow bg-white p-4 lg:p-6">

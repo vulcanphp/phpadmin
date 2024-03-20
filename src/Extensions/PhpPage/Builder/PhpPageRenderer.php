@@ -2,7 +2,9 @@
 
 namespace VulcanPhp\PhpAdmin\Extensions\PhpPage\Builder;
 
+use VulcanPhp\SweetView\Engine\Html\Html;
 use VulcanPhp\PhpAdmin\Models\PageElement;
+use VulcanPhp\PhpAdmin\Extensions\PhpPage\PhpPageConfig;
 
 class PhpPageRenderer
 {
@@ -35,10 +37,7 @@ class PhpPageRenderer
      */
     public function getPageLayoutPath(): ?string
     {
-        $layoutPath     = $this->path . '/layout/index.php';
-        $defaultLayout  = __DIR__ . '/../resources/layout/index.php';
-
-        return file_exists($layoutPath) ? $layoutPath : $defaultLayout;
+        return $this->path . '/layout/index.php';
     }
 
     /**
@@ -50,16 +49,18 @@ class PhpPageRenderer
     public function render()
     {
         // init variables that should be accessible in the view
-        $renderer = $this;
-        $post     = $this->post;
-        $body     = ($this->is_edit) ? '<div phpb-content-container="true"></div>' : $this->renderBody();
-
+        $body       = ($this->is_edit) ? '<div phpb-content-container="true"></div>' : $this->renderBody();
         $layoutPath = $this->getPageLayoutPath();
-        if ($layoutPath) {
-            ob_start();
-            require $layoutPath;
-            $pageHtml = ob_get_contents();
-            ob_end_clean();
+
+        if ($layoutPath && file_exists($layoutPath)) {
+            $pageHtml = str_ireplace(
+                ['{{content}}', '{{ content }}'],
+                $body,
+                Html::load()->getContent($layoutPath, [
+                    'renderer' => $this,
+                    'post' => $this->post,
+                ])
+            );
         } else {
             $pageHtml = $body;
         }

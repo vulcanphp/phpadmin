@@ -129,7 +129,6 @@ class PhpPage
             }
         }
 
-
         ob_start();
         include __DIR__ . '/resources/output/builder.php';
         return ob_get_clean();

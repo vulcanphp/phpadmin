@@ -62,13 +62,15 @@ class ToolController extends Controller
                 'title' => translate('Php Content Manager (PhpCM)'),
                 'version' => '1.x'
             ],
-            phpadmin()->get('php_cm')
+            (array) phpadmin()->get('php_cm')
         )->resolve();
     }
 
     public function menus()
     {
-        return PhpCm::Menu(phpadmin()->get('site_menus'))
+        return PhpCm::Menu(
+            (array) phpadmin()->get('site_menus')
+        )
             ->resolve();
     }
 

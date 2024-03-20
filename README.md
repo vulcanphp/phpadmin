@@ -25,7 +25,7 @@ use VulcanPhp\Core\Foundation\Application;
 require_once __DIR__ . '/vendor/autoload.php';
 
 Application::create(__DIR__)
-    //Register PhpAdmin Kernel to Application, Thats it.. 
+    // Register PhpAdmin Kernel to Application
     ->registerKernel(VulcanPhp\PhpAdmin\PhpAdminKernel::class)
     ->run();
 
@@ -33,12 +33,12 @@ Application::create(__DIR__)
 ```
 
 ## Documentation
-Note: Detailed documentation for PhpAdmin is coming soon ..
-...
+<i>Detailed documentation for PhpAdmin is coming soon ..</i>
 
-## Used PhpAdmin Built-in Extensions
+
+### Used PhpAdmin Built-in Extensions
 - [Bread](#bread)
-- [DTS](#dts)
+- [DataTable](#datatable)
 - [FusionChart](#fusionchart)
 - [PhpCm](#phpcm)
 - [PhpPage](#phppage)

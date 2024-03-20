@@ -1,7 +1,4 @@
-
-
 **Disabled Options:**
-'analytics', // integrated analytics
 'quicklinks',
 'users',
 'pages',
@@ -10,12 +7,12 @@
 	'menu',
 	'filemanager',
 	'i18n',
+	'sitekit',
 	'backup',
 	'reset',
 ],
 'settings' => [
 	'general',
 	'profile',
-	'widget',
-	'analytics', // google analytics
+	'analytics',
 ]

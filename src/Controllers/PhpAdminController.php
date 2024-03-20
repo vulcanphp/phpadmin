@@ -9,6 +9,7 @@ use VulcanPhp\PhpAdmin\Extensions\SvgMap\Map;
 use VulcanPhp\Core\Foundation\Controller;
 use VulcanPhp\Core\Helpers\Arr;
 use VulcanPhp\Core\Helpers\Time;
+use VulcanPhp\PhpAdmin\Models\Option;
 use VulcanPhp\PhpAdmin\Models\Page;
 
 class PhpAdminController extends Controller
@@ -23,7 +24,7 @@ class PhpAdminController extends Controller
             phpadmin()->addWidget(['icon' => 'file-blank', 'text' => 'Number of Pages', 'count' => Page::Cache()->load('total', fn () => Page::total())]);
         }
 
-        if (phpadmin_enabled('analytics') && isSuperAdmin() && setting('enabled_visitor_analytics') === 'true') {
+        if (isSuperAdmin() && setting('enabled_visitor_analytics') === 'true') {
             Visitor::check();
 
             phpadmin()
@@ -103,7 +104,7 @@ class PhpAdminController extends Controller
         return phpadmin_view('index');
     }
 
-    public function clone($id)
+    public function clonePage($id)
     {
         $page = Page::find($id);
 
@@ -116,5 +117,20 @@ class PhpAdminController extends Controller
         }
 
         return response()->httpCode(500)->json(['message' => 'Failed! to clone record, please try again later.']);
+    }
+
+    public function siteKit()
+    {
+        if (request()->isPostBack()) {
+            if (Option::saveOptions([input('block') => input('content')], 'sitekit')) {
+                session()->setFlash('success', 'SiteKit Block Has Been Saved.');
+            } else {
+                session()->setFlash('warning', 'Failed to Save SiteKit Block.');
+            }
+
+            return response()->back();
+        }
+
+        return phpadmin_view('sitekit');
     }
 }

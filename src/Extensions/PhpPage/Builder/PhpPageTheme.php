@@ -30,17 +30,15 @@ class PhpPageTheme
      */
     protected function loadThemeBlocks()
     {
-        $this->blocks = [];
+        $this->blocks   = [];
+        $blockPath = $this->getFolder() . '/blocks';
 
-        foreach ([$this->getFolder() . '/blocks', __DIR__ . '/../resources/blocks'] as $path) {
-
-            if (!file_exists($path)) continue;
-
-            $blocksDirectory = new DirectoryIterator($path);
+        if (is_dir($blockPath)) {
+            $blocksDirectory = new DirectoryIterator($blockPath);
             foreach ($blocksDirectory as $entry) {
                 if ($entry->isDir() && !$entry->isDot()) {
                     $blockSlug                = $entry->getFilename();
-                    $block                    = new PhpPageThemeBlock(str_replace('/blocks', '', $path), $blockSlug);
+                    $block                    = new PhpPageThemeBlock($this->getFolder(), $blockSlug);
                     $this->blocks[$blockSlug] = $block;
                 }
             }

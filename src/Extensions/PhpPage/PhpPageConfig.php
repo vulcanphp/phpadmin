@@ -4,9 +4,9 @@ namespace VulcanPhp\PhpAdmin\Extensions\PhpPage;
 
 class PhpPageConfig
 {
-    const PB_LIB_ROOT_PATH = 'vendor/vulcanphp/phpadmin/src/Extensions/PhpPage';
-    const PB_STORAGE_PATH = 'storage/phppage';
-    const PB_THEME_DIR = 'resources/phppage';
+    const PB_LIB_ROOT_PATH  = 'vendor/vulcanphp/phpadmin/src/Extensions/PhpPage';
+    const PB_STORAGE_PATH   = 'storage/phppage';
+    const PB_THEME_DIR      = 'resources/phppage';
 
     public static function storage(string $path = '', bool $url = false): string
     {

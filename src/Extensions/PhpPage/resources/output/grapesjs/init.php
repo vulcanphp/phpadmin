@@ -110,16 +110,19 @@ use VulcanPhp\PhpAdmin\Extensions\PhpPage\PhpPageConfig; ?>
     window.pageBlocks = <?= json_encode($pageRenderer->getPageBlocksData()) ?>;
     window.renderBlockUrl = '<?= url()->relativeUrl() ?>?_phppage_action=block_render&_token=<?= csrf_token(); ?>';
     window.injectionScriptUrl = '<?= PhpPageConfig::assets('/resources/assets/js/page-injection.js'); ?>';
-    window.categoryOrder = {
-        "dynamic": 1,
-        "pages": 2,
-        "blocks": 3,
-        "layouts": 4,
-        "bootstrap": 5
-    };
+    window.categoryOrder = <?= json_encode($categoryOrder = [
+                                "dynamic" => 1,
+                                "pages" => 2,
+                                "blocks" => 3,
+                                "layouts" => 4,
+                                "bootstrap" => 5
+                            ]) ?>;
+    window.defaultCategory = '<?= !empty($blocks) ? min(collect(array_unique(array_column($blocks, 'category')))
+                                    ->map(fn ($cat) => $categoryOrder[strtolower($cat)] ?? 0)
+                                    ->all()) : '' ?>';
     window.categoryIcon = {
         "dynamic": '<i class="fa fa-android" data-category="android" aria-hidden="true"></i> Dynamic',
-        "pages": '<i class="fa fa-file-text-o" data-category="pages" aria-hidden="true"></i> Pages',
+        "pages": '<i class="fa fa-file-text" data-category="pages" aria-hidden="true"></i> Pages',
         "blocks": '<i class="fa fa-th-large" data-category="blocks" aria-hidden="true"></i> Blocks',
         "layouts": '<i class="fa fa-window-maximize" data-category="layouts" aria-hidden="true"></i> Layouts',
         "bootstrap": '<i class="fa fa-pencil" data-category="bootstrap" aria-hidden="true"></i> Utility'

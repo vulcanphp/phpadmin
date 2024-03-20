@@ -12,7 +12,7 @@ if (EDITOR_DIV !== null) {
 
             // Headers sent along with the XMLHttpRequest to the upload server.
             headers: {
-                'X-CSRF-TOKEN': $("meta[name='_token']").attr("content")
+                'X-CSRF-TOKEN': document.querySelector("meta[name='_token']").getAttribute("content")
             }
         },
         autosave: {
@@ -31,38 +31,28 @@ if (EDITOR_DIV !== null) {
     });
 
     function save_ckeditor_data() {
-        $.ajax({
-            type: "post",
-            url: balloon_conf.save_url,
-            data: {
+
+        document.querySelector('#SaveBalloonChanges').classList.add('loading');
+        document.querySelector('#SaveBalloonChanges').innerHTML = `<svg style="color:white; height:30px;width:30px;" class="animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle style="opacity:0.75" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path style="opacity:0.75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>`;
+
+        fetch(balloon_conf.save_url, {
+            method: "POST",
+            body: JSON.stringify({
                 content: window.editor.getData(),
-                _token: $("meta[name='_token']").attr("content")
-            },
-            dataType: "json",
-            beforeSend: function () {
-                $('#SaveBalloonChanges').addClass('loading');
-                $('#SaveBalloonChanges').html(`<svg style="color:white; height:30px;width:30px;" class="animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle style="opacity:0.75" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path style="opacity:0.75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>`);
-            },
-            success: function () {
-                
-            }
+                _token: document.querySelector("meta[name='_token']").getAttribute("content")
+            })
         })
-        .always(function () {
-            $('#SaveBalloonChanges').removeClass('loading');
-            $('#SaveBalloonChanges').html(balloon_conf.save_text);
-        });
+            .then(res => res.json())
+            .then(resp => {
+                document.querySelector('#SaveBalloonChanges').classList.remove('loading');
+                document.querySelector('#SaveBalloonChanges').innerHTML = balloon_conf.save_text;
+            });
     }
 
-    $(document).on('click', '#SaveBalloonChanges', function () {
-        if (!$(this).hasClass('loading')) {
-            window.editor.plugins.get('Autosave').save();
-        }
-    });
-
-    $('body').append(`
+    document.querySelector('body').insertAdjacentHTML('beforeend', `
         <style>
             @-webkit-keyframes spin {to {transform: rotate(360deg);}}
             @keyframes spin {to {transform: rotate(360deg);}}
@@ -87,4 +77,8 @@ if (EDITOR_DIV !== null) {
             <a target="_blank" href="${balloon_conf.forward_href}" title="${balloon_conf.forward_title}" class="ck_btn_action">${balloon_conf.forward_text}</a>
         </div>
     `);
+
+    document.querySelector('#SaveBalloonChanges').addEventListener('click', function(){
+        window.editor.plugins.get('Autosave').save();
+    });
 }
