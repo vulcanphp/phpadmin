@@ -25,7 +25,7 @@ class RecoverPasswordModel extends User
         ];
     }
 
-    public function sendResetLink(): bool
+    public function sendResetLink(?string $link = null, ?string $template = null): bool
     {
         $user = parent::find(['email' => $this->email]);
 
@@ -40,7 +40,7 @@ class RecoverPasswordModel extends User
         $token = Hash::random(32, 'alphanumeric');
         $data  = [
             'name' => $user->getDisplayName(),
-            'link' => auth_url('reset') . '?token=' . Encryption::encryptArray(['id' => $user->id, 'token' => $token]),
+            'link' => ($link ?? auth_url('reset')) . '?token=' . Encryption::encryptArray(['id' => $user->id, 'token' => $token]),
         ];
 
         $send = [
@@ -49,7 +49,7 @@ class RecoverPasswordModel extends User
             'name'    => $user->getDisplayName(),
         ];
 
-        if (Mail::template('reset', $data)->to($send)->send()) {
+        if (Mail::template(($template ?? 'reset'), $data)->to($send)->send()) {
             return UserMeta::saveMeta(['reset_token' => encode_string(['token' => $token, 'expire' => strtotime('+ 1 day')])], $user->id);
         }
 
