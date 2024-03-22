@@ -3,7 +3,7 @@
 use VulcanPhp\FileSystem\File;
 
 $multiple = isset($multiple) && $multiple === true;
-$value    = isset($value) && !empty($value) ? (array) $value : [];
+$value    = isset($value) && !empty($value) ? (array) decode_string($value) : [];
 
 if (!function_exists('tw_media_output')) {
     function tw_media_output(string $resource): string
