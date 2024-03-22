@@ -116,13 +116,15 @@ class PhpCmTable
     protected function getInput($column)
     {
         $input = null;
-        if (in_array($column['type'], ['text', 'number', 'email', 'url', 'date', 'datetime', 'search'])) {
+        if (in_array($column['type'], ['text', 'textarea', 'number', 'email', 'url', 'date', 'file', 'datetime', 'search'])) {
             $input = sprintf(
-                '<input class="tw-input dt_input mb-4" type="%s" data-column="%s" placeholder="%s" %s>',
-                $column['type'],
+                '<%s %s class="tw-input dt_input mb-4" data-column="%s" placeholder="%s" %s>%s',
+                $column['type'] == 'textarea' ? 'textarea' : 'input type="' . $column['type'] . '"',
+                isset($column['multiple']) && $column['multiple'] === true ? 'multiple' : '',
                 $column['name'],
                 translate($column['placeholder'] ?? ('Enter ' . Str::read($column['name']))),
-                isset($column['required']) && $column['required'] === false ? '' : ''
+                isset($column['required']) && $column['required'] === false ? '' : '',
+                $column['type'] == 'textarea' ? '</textarea>' : '',
             );
         } elseif ($column['type'] == 'select') {
             $options = array_map(function ($key, $val) {
