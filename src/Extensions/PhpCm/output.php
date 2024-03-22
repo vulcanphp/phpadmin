@@ -7,7 +7,7 @@ $this->resourceDir(__DIR__ . '/../../resources/views')
 ?>
 <div style="height: 50px;"></div>
 
-<section id="phpcm_area" style="min-width: max-content;">
+<section id="phpcm_area">
     <?= $phpcm->render() ?>
 </section>
 
