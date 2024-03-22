@@ -53,7 +53,7 @@ if (!function_exists('tw_media_output')) {
 
             <span class="label-description">
                 <span style="display: block;">
-                    <?= translate('Choose' . ($multiple ? 'Multiple' : '') . ' File') ?>
+                    <?= translate('Choose' . ($multiple ? ' Multiple' : '') . ' File') ?>
                 </span>
                 <small>
                     <?= translate($description ?? '') ?>
