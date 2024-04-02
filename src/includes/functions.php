@@ -126,7 +126,7 @@ if (!function_exists('phpadmin_view')) {
     }
 }
 
-if (!function_exists('phpadmin_views_dir')) {
+if (!function_exists('phpadmin_layout_dir')) {
     function phpadmin_layout_dir(): string
     {
         return dirname(__DIR__) . '/resources/views/layout.php';
