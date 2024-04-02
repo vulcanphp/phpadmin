@@ -8,9 +8,9 @@ $this->resourceDir($layout['dir'])
 <div style="height:35px"></div>
 
 <div class="flex justify-center">
-    <div class="w-max max-w-full">
+    <div class="max-w-full">
         <div class="py-4 px-6 shadow-xl bg-white">
-            <h2 class="mb-4 text-2xl text-center font-semibold text-sky-600"><?= translate($config['show_title'] ?? 'Record Information') ?></h2>
+            <h2 class="mb-4 text-2xl text-center font-semibold text-sky-600"><?= translate($config['show_title'] ?? 'View Record') ?></h2>
             <table class="tw_bread_view">
                 <?php foreach (array_filter($model->toArray()) as $key => $value) :
                     $value = gettype($value) == 'object' ? ($value instanceof VulcanPhp\Core\Helpers\Collection ? $value->filter()->all() : array_filter((array) $value)) : $value; ?>

@@ -47,6 +47,9 @@ class BreadController extends Controller implements IResource
 
     public function show($id)
     {
+        if (!$this->config()->hasRight('view')) {
+            return response()->back();
+        }
         if ($this->config()->hasOverride('show')) {
             return $this->config()->applyOverride('show', $id);
         }
@@ -66,6 +69,10 @@ class BreadController extends Controller implements IResource
 
     public function store()
     {
+        if (!$this->config()->hasRight('create')) {
+            return response()->back();
+        }
+
         if ($this->config()->hasOverride('store')) {
             return $this->config()->applyOverride('store');
         }
@@ -86,6 +93,10 @@ class BreadController extends Controller implements IResource
 
     public function create()
     {
+        if (!$this->config()->hasRight('create')) {
+            return response()->back();
+        }
+
         if ($this->config()->hasOverride('create')) {
             return $this->config()->applyOverride('create');
         }
@@ -112,6 +123,10 @@ class BreadController extends Controller implements IResource
 
     public function edit($id)
     {
+        if (!$this->config()->hasRight('edit')) {
+            return response()->back();
+        }
+
         if ($this->config()->hasOverride('edit')) {
             return $this->config()->applyOverride('edit', $id);
         }
@@ -144,6 +159,10 @@ class BreadController extends Controller implements IResource
 
     public function update($id)
     {
+        if (!$this->config()->hasRight('edit')) {
+            return response()->back();
+        }
+
         if ($this->config()->hasOverride('update')) {
             return $this->config()->applyOverride('update', $id);
         }
@@ -171,6 +190,10 @@ class BreadController extends Controller implements IResource
 
     public function destroy($id)
     {
+        if (!$this->config()->hasRight('delete')) {
+            return response()->httpCode(500)->json(['message' => 'Invalid.']);
+        }
+
         if ($this->config()->hasOverride('destroy')) {
             return $this->config()->applyOverride('destroy', $id);
         }
@@ -223,7 +246,34 @@ class BreadController extends Controller implements IResource
             }
         }
 
-        $ssp->column(($ssp->hasJoins() ? 'p.' : '') . 'id', fn ($id) => $ssp->module('action', ['id' => $id, 'options' => array_merge($this->config()->getConfig('action_before', []), ['show', 'edit', 'destroy' => true]), 'route' => $this->route->getAction()]));
+        $actionButtons = [];
+        if ($this->config()->hasRight('view')) {
+            $actionButtons[] = 'show';
+        }
+        if ($this->config()->hasRight('edit')) {
+            $actionButtons[] = 'edit';
+        }
+        if ($this->config()->hasRight('delete')) {
+            $actionButtons['destroy'] = true;
+        }
+
+        if ($this->config()->hasFilter('actionButtons')) {
+            $actionButtons = $this->config()->applyFilter('actionButtons', $actionButtons);
+        }
+
+        $ssp->column(
+            ($ssp->hasJoins() ? 'p.' : '') . 'id',
+            fn ($id) => $ssp->module(
+                'action',
+                [
+                    'id' => $id,
+                    'options' => array_merge(
+                        $this->config()->getConfig('action_before', []),
+                        $actionButtons
+                    ), 'route' => $this->route->getAction()
+                ]
+            )
+        );
 
         if (!empty($this->config()->getCondition())) {
             $ssp->where($this->config()->getCondition());

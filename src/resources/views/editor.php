@@ -7,7 +7,7 @@ $this->layout('layout')
 
 <div class="flex justify-center">
 
-    <div class="w-11/12">
+    <div class="w-10/12">
         <div class="py-6 px-6 shadow-xl bg-white">
             <h2 class="mb-5 text-2xl font-semibold text-sky-600">
                 <a href="<?= url('admin.pages.edit', ['id' => $post->id]) ?>">&larr; <?= $post->getTitle() ?></a>

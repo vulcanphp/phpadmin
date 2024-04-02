@@ -102,8 +102,8 @@ class EditorController extends Controller
             $file = input()->getFile('files');
             if (in_array($file->getExtension(), ['jpg', 'jpeg', 'png', 'gif', 'svg']) && $file->getSize() < (1048576 * 3)) {
 
-                if (!is_dir(PhpPageConfig::PB_STORAGE_PATH)) {
-                    mkdir(PhpPageConfig::PB_STORAGE_PATH, 0777, true);
+                if (!is_dir(root_dir(PhpPageConfig::PB_STORAGE_PATH))) {
+                    mkdir(root_dir(PhpPageConfig::PB_STORAGE_PATH), 0777, true);
                 }
 
                 $file->move(PhpPageConfig::storage($file->getFilename()));

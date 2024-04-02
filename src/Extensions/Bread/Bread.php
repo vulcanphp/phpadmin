@@ -19,9 +19,10 @@ class Bread
     public function __destruct()
     {
         $route = Route::resource($this->url, BreadController::class);
+        $config = $this->getBreadConfig();
 
         if (url()->contains($this->url)) {
-            $route->bread = $this->getBreadConfig();
+            $route->bread = $config;
         }
 
         $tag = ucfirst(Inflect::singularize($this->config['sidebar']['title']));
@@ -29,10 +30,10 @@ class Bread
         phpadmin()->addSidebarMenuItem(array_merge($this->config['sidebar'], [
             'order'    => 3,
             'url'      => phpadmin_prefix() . trim($this->url, '/'),
-            'subitems' => [
+            'subitems' => $config->hasRight('create') ? [
                 ['url' => phpadmin_prefix() . trim($this->url, '/'), 'rights' => ['read'], 'title' => $tag . ' List'],
                 ['url' => phpadmin_prefix() . trim($this->url, '/') . '/create', 'rights' => ['create'], 'title' => 'New ' . $tag],
-            ]
+            ] : null
         ]));
     }
 

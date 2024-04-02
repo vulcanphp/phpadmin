@@ -167,7 +167,7 @@
 
     <!-- Main Content -->
     <main id="main" style="width: calc(100% - <?= $toggleSidebar ? '69px' : '235px' ?>);margin-left:auto;">
-        <section style="height:calc(100vh - 50px); max-width: 1180px;margin:auto;" class="loader-parent">
+        <section style="height:calc(100vh - 50px); max-width: 1080px;margin:auto;" class="loader-parent">
             <div tw_admin_loader class="loading">
                 <div class="loader loader-lg"></div>
             </div>

@@ -28,19 +28,20 @@ class PhpAdminKernel implements IKernel
         SimpleAuth::setup();
 
         if (
-            stripos(url()->getPath(), config('phpadmin.prefix')) !== false
+            stripos(url()->getPath(), config('phpadmin.prefix')) === 0
             && !in_array(true, array_map(fn ($ignore) => stripos(url()->getPath(), $ignore) !== false, config('phpadmin.ignore', [])))
         ) {
             // PhpAdmin Setup
             if (empty(config('phpadmin.require_auth')) || (!empty(config('phpadmin.require_auth')) && auth()->isLogged())) {
-                // init translator
-                Translator::$instance->getDriver()
-                    ->setManager(new TranslatorFileManager([
-                        'convert'   => user()->meta('language', config('app.language')),
-                        'suffix'    => 'admin',
-                        'local_dir' => config('app.language_dir'),
-                    ]));
-
+                if (!empty(user()->meta('language'))) {
+                    // init translator
+                    Translator::$instance->getDriver()
+                        ->setManager(new TranslatorFileManager([
+                            'convert'   => user()->meta('language'),
+                            'suffix'    => 'admin',
+                            'local_dir' => config('app.language_dir'),
+                        ]));
+                }
                 // set phpadmin as a component to application
                 app()->setComponent('phpadmin', new PhpAdmin());
                 // require default dashboard menu settings

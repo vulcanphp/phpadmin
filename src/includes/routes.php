@@ -62,7 +62,7 @@ if (phpadmin_enabled('users') && isSuperAdmin()) {
             ],
             'columns'   => ['p.id', 'avatar', 'p.name', 'p.email', 'p.role', 'p.joinded_at'],
             'formatter' => [
-                'avatar'      => ['t1.value', fn ($avatar, $rows, $ssp) => $ssp->module('avatar', isset($avatar) ? storage_url($avatar) : gravatar($rows[3]))],
+                'avatar'      => ['t1.value', fn ($avatar, $rows, $ssp) => $ssp->module('avatar', isset($avatar) ? (is_url($avatar) ? $avatar : storage_url($avatar)) : gravatar($rows[3]))],
                 'p.joinded_at' => ['p.created_at', fn ($datetime) => Time::format($datetime)]
             ],
             'joins' => [

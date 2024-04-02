@@ -7,9 +7,9 @@ $this->resourceDir($layout['dir'])
 
 <div style="height:35px"></div>
 
-<div class="py-4 px-6 shadow-xl w-max min-w-full bg-white">
+<div class="py-4 px-6 shadow-xl min-w-full bg-white">
     <?= $actions['before'] ?? '' ?>
-    <table class="datatable border border-gray-200 shadow-sm" id="bread-index-table" data-serverside="<?= url()->getPath() . '/data/' ?>">
+    <table class="datatable border border-gray-200 shadow-sm" id="bread-index-table" data-serverside="<?= url()->getPath() . 'data' ?>">
         <thead>
             <tr>
                 <?php

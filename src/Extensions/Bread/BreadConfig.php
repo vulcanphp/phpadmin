@@ -19,15 +19,27 @@ class BreadConfig
         'filters'   => [],
         'editor_config' => [
             'width' => 'sm',
-            'create_title' => 'Create New Record',
-            'edit_title' => 'Update Record',
-            'show_title' => 'Record Information'
-        ]
+            'create_title' => null,
+            'edit_title' => null,
+            'show_title' => null
+        ],
+        'rights' => ['create', 'view', 'edit', 'delete']
     ];
 
     public function __construct(protected Model $model, protected array $settings = [])
     {
         $this->settings = array_merge(self::DEFAULT_CONFIG, $this->settings);
+    }
+
+    public function updateSetting(string $key, $value): self
+    {
+        $this->settings[$key] = $value;
+        return $this;
+    }
+
+    public function hasRight(string $right): bool
+    {
+        return in_array($right, $this->getConfig('rights'));
     }
 
     public function hasOverride(string $key): bool

@@ -35,6 +35,9 @@ class LoginModel extends User
         if ($user === false) {
             $this->addError('user', 'User does not exist with this username/email address');
             return false;
+        } elseif ($user->status == config('auth.status.verification')) {
+            $this->addError('user', sprintf("Your Account Is Not Verified."));
+            return false;
         } elseif ($user->status != config('auth.status.activated')) {
             $this->addError('user', sprintf("Your Account Has Been %s.", array_search($user->status, config('auth.status'))));
             return false;

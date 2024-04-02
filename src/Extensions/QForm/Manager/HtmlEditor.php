@@ -38,7 +38,7 @@ class HtmlEditor
     {
         bucket()->load('inited_html_editor_script', function () {
             mixer()
-                ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/translations/' . strtolower(user()->meta('language', 'en')) . '.js')
+                ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/translations/' . (!empty(user()->meta('language')) ?  strtolower(user()->meta('language')) : 'en') . '.js')
                 ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/classic.js')
                 ->enque('js', "let ck_media_upload_url = '" . phpadmin_prefix() . "media/ckeditor/';")
                 ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/classic.setup.js');
@@ -54,7 +54,7 @@ class HtmlEditor
             mixer()->enque('js', <<<EOT
                 let balloon_conf = {$bolloon_cnf};
             EOT)
-                ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/translations/' . strtolower(user()->meta('language', 'en')) . '.js')
+                ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/translations/' . (!empty(user()->meta('language')) ?  strtolower(user()->meta('language')) : 'en') . '.js')
                 ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/balloon.js')
                 ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/balloon.setup.js');
 

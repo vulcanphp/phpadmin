@@ -52,7 +52,7 @@ class ResetPasswordModel extends BaseModel
         if ($this->user->save() && UserMeta::removeMeta(['reset_token'], $this->user->id)) {
             return true;
         } else {
-            session()->setFlash('success', 'Something wen\'t wrong, please try again later.');
+            session()->setFlash('error', 'Something wen\'t wrong, please try again later.');
         }
 
         return false;

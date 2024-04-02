@@ -18,6 +18,7 @@ if (phpadmin_enabled('settings.general') && isSuperAdmin()) {
             ['field' => 'addInput', 'name' => 'site_slogan', 'label' => true],
             ['field' => 'addTextarea', 'name' => 'site_description', 'label' => true],
             ['field' => 'addSelect', 'name' => 'site_language', 'options' => load_json('languages'), 'label' => true],
+            ['field' => 'addMedia', 'name' => 'site_image', 'description' => 'Set a Primary Image for your Site', 'label' => true],
             ['field' => 'addMedia', 'name' => 'site_favicon', 'description' => 'Set a Primary Favicon for your Site', 'label' => true],
         ],
     ] : []);

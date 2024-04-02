@@ -126,10 +126,17 @@ if (!function_exists('phpadmin_view')) {
     }
 }
 
-if (!function_exists('phpadmin_layout_dir')) {
+if (!function_exists('phpadmin_views_dir')) {
     function phpadmin_layout_dir(): string
     {
         return dirname(__DIR__) . '/resources/views/layout.php';
+    }
+}
+
+if (!function_exists('phpadmin_views_dir')) {
+    function phpadmin_views_dir(): string
+    {
+        return dirname(__DIR__) . '/resources/views';
     }
 }
 

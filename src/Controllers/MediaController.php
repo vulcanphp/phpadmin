@@ -34,7 +34,7 @@ class MediaController extends Controller
         return MediaStorage::select()
             ->order('p.id DESC')
             ->limit(500)
-            ->where(input()->exists('path') ? 'parent = ' . input('path') : 'parent IS NULL')
+            ->where(input()->exists('path') ? 'parent = ' . input('path') : 'parent IS NULL OR parent = 0')
             ->get()
             ->map(function ($file) {
 

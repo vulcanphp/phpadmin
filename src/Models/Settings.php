@@ -9,6 +9,7 @@ class Settings extends Option
         $site_description,
         $site_language,
         $site_favicon,
+        $site_image,
         $maxmind_api_key,
         $enabled_visitor_analytics;
 
@@ -20,6 +21,7 @@ class Settings extends Option
             'site_description',
             'site_language',
             'site_favicon',
+            'site_image',
             'maxmind_api_key',
             'enabled_visitor_analytics'
         ];

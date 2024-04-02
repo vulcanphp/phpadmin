@@ -5,6 +5,7 @@ use VulcanPhp\Core\Helpers\Str;
 $this->layout('layout')
     ->block('title', 'SiteKit');
 
+$disabledSidebar = !phpadmin_enabled('tools.sitekitSidebar');
 ?>
 
 <div style="height:35px"></div>
@@ -36,28 +37,30 @@ $this->layout('layout')
                     <a href="?edit=before_head_tag" class="mx-4 tw-btn tw-btn-sm tw-btn-sky"><?= translate('Before Head Tag') ?> &darr;</a>
                 </div>
                 <a href="?edit=before_content_start" style="top:75px; right: 0; left: 0; width: max-content;" class="mx-auto absolute flex justify-center tw-btn tw-btn-sm tw-btn-sky"><?= translate('Before Content Start') ?> &darr;</a>
-                <div style="opacity: 0.10; position: absolute; width: 65%; top:125px; background: #9ca3af; height: 60px;" class="mx-4"></div>
-                <div style="opacity: 0.10; position: absolute; width: 65%; top:200px; background: #9ca3af; height: 200px;" class="mx-4"></div>
-                <div style="position: absolute; width: 65%; top:420px; height: 55px; text-align: center;" class="mx-4">
+                <div style="opacity: 0.10; position: absolute; width: <?= $disabledSidebar ? '95%' : '65%' ?>; top:125px; background: #9ca3af; height: 60px;" class="mx-4"></div>
+                <div style="opacity: 0.10; position: absolute; width: <?= $disabledSidebar ? '95%' : '65%' ?>; top:200px; background: #9ca3af; height: 200px;" class="mx-4"></div>
+                <div style="position: absolute; width: <?= $disabledSidebar ? '95%' : '65%' ?>; top:420px; height: 55px; text-align: center;" class="mx-4">
                     <a href="?edit=between_content" class="mx-auto tw-btn tw-btn-sm tw-btn-sky">&uarr; <?= translate('Between Content') ?> &darr;</a>
                 </div>
-                <div style="opacity: 0.10; position: absolute; width: 30%; top:470px; background: #9ca3af; height: 40px;" class="mx-4"></div>
-                <div style="opacity: 0.10; position: absolute; width: 30%; top:470px; background: #9ca3af; height: 40px; left: 35%;" class="mx-4"></div>
-                <div style="opacity: 0.10; position: absolute; width: 65%; top:525px; background: #9ca3af; height: 75px;" class="mx-4"></div>
+                <div style="opacity: 0.10; position: absolute; width: <?= $disabledSidebar ? '45%' : '30%' ?>; top:470px; background: #9ca3af; height: 40px;" class="mx-4"></div>
+                <div style="opacity: 0.10; position: absolute; width: <?= $disabledSidebar ? '45%' : '30%' ?>; top:470px; background: #9ca3af; height: 40px; left: <?= $disabledSidebar ? '50%' : '35%' ?>;" class="mx-4"></div>
+                <div style="opacity: 0.10; position: absolute; width: <?= $disabledSidebar ? '95%' : '65%' ?>; top:525px; background: #9ca3af; height: 75px;" class="mx-4"></div>
                 <a href="?edit=before_content_end" style="bottom: 75px; right: 0; left: 0; width: max-content;" class="mx-auto absolute flex justify-center tw-btn tw-btn-sm tw-btn-sky"><?= translate('Before Content End') ?> &uarr;</a>
-                <div style="position: absolute; width: 26%; top:100px; text-align: center; height: 30px; right: 0;" class="mx-4">
-                    <a href="?edit=before_sidebar" class="mx-auto tw-btn tw-btn-sm tw-btn-sky"><?= translate('Before Sidebar') ?> &darr;</a>
-                </div>
-                <div style="opacity: 0.10; position: absolute; width: 26%; top:140px; background: #9ca3af; height: 30px; right: 0;" class="mx-4"></div>
-                <div style="opacity: 0.10; position: absolute; width: 26%; top:185px; background: #9ca3af; height: 140px; right: 0;" class="mx-4"></div>
-                <div style="position: absolute; width: 26%; top:345px; text-align: center; height: 30px; right: 0;" class="mx-4">
-                    <a href="?edit=between_sidebar" class="mx-auto tw-btn tw-btn-sm tw-btn-sky">&darr;<?= translate('Between Sidebar') ?> &uarr;</a>
-                </div>
-                <div style="opacity: 0.10; position: absolute; width: 26%; top:395px; background: #9ca3af; height: 30px; right: 0;" class="mx-4"></div>
-                <div style="opacity: 0.10; position: absolute; width: 26%; top:440px; background: #9ca3af; height: 140px; right: 0;" class="mx-4"></div>
-                <div style="position: absolute; width: 26%; top:600px; text-align: center; height: 30px; right: 0;" class="mx-4">
-                    <a href="?edit=after_sidebar" class="mx-auto tw-btn tw-btn-sm tw-btn-sky"><?= translate('After Sidebar') ?> &uarr;</a>
-                </div>
+                <?php if (!$disabledSidebar) : ?>
+                    <div style="position: absolute; width: 26%; top:100px; text-align: center; height: 30px; right: 0;" class="mx-4">
+                        <a href="?edit=before_sidebar" class="mx-auto tw-btn tw-btn-sm tw-btn-sky"><?= translate('Before Sidebar') ?> &darr;</a>
+                    </div>
+                    <div style="opacity: 0.10; position: absolute; width: 26%; top:140px; background: #9ca3af; height: 30px; right: 0;" class="mx-4"></div>
+                    <div style="opacity: 0.10; position: absolute; width: 26%; top:185px; background: #9ca3af; height: 140px; right: 0;" class="mx-4"></div>
+                    <div style="position: absolute; width: 26%; top:345px; text-align: center; height: 30px; right: 0;" class="mx-4">
+                        <a href="?edit=between_sidebar" class="mx-auto tw-btn tw-btn-sm tw-btn-sky">&darr;<?= translate('Between Sidebar') ?> &uarr;</a>
+                    </div>
+                    <div style="opacity: 0.10; position: absolute; width: 26%; top:395px; background: #9ca3af; height: 30px; right: 0;" class="mx-4"></div>
+                    <div style="opacity: 0.10; position: absolute; width: 26%; top:440px; background: #9ca3af; height: 140px; right: 0;" class="mx-4"></div>
+                    <div style="position: absolute; width: 26%; top:600px; text-align: center; height: 30px; right: 0;" class="mx-4">
+                        <a href="?edit=after_sidebar" class="mx-auto tw-btn tw-btn-sm tw-btn-sky"><?= translate('After Sidebar') ?> &uarr;</a>
+                    </div>
+                <?php endif ?>
                 <div class="absolute flex items-center bottom-0" style="background: #1e293b; width: 100%; height: 55px;">
                     <a href="?edit=before_footer_tag" class="mx-4 tw-btn tw-btn-sm tw-btn-sky"><?= translate('Before Footer Tag') ?> &uarr;</a>
                 </div>
