@@ -104,7 +104,7 @@
                         <div class="w-max absolute z-20 right-0 top-[100%] mt-2 hidden" id="profile-drop">
                             <div class="rounded p-4 shadow-lg" style="background:rgb(255 255 255 / 90%)">
                                 <div class="flex">
-                                    <img src="<?= user()->meta('avatar') != null ? storage_url(user()->meta('avatar')) : gravatar(user('email'), 120) ?>" class="rounded-full h-[45px] w-[45px]">
+                                    <img style="background: #ddd;" src="<?= user()->meta('avatar') != null ? storage_url(user()->meta('avatar')) : gravatar(user('email'), 120) ?>" class="rounded-full h-[45px] w-[45px]">
                                     <div class="ml-2">
                                         <p class="font-semibold text-sm uppercase"><?= user()->getDisplayName() ?></p>
                                         <p class="text-sm text-gray-600">@<?= VulcanPhp\Core\Helpers\Str::read(user('role')) ?></p>

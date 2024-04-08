@@ -261,16 +261,19 @@ class BreadController extends Controller implements IResource
             $actionButtons = $this->config()->applyFilter('actionButtons', $actionButtons);
         }
 
+        $actionButtons = array_merge(
+            $this->config()->getConfig('action_before', []),
+            $actionButtons
+        );
+
         $ssp->column(
             ($ssp->hasJoins() ? 'p.' : '') . 'id',
-            fn ($id) => $ssp->module(
+            fn ($id, $rows) => $ssp->module(
                 'action',
                 [
                     'id' => $id,
-                    'options' => array_merge(
-                        $this->config()->getConfig('action_before', []),
-                        $actionButtons
-                    ), 'route' => $this->route->getAction()
+                    'options' => $this->config()->hasFilter('actionOptions') ? $this->config()->applyFilter('actionOptions', $actionButtons, $id, $rows) : $actionButtons,
+                    'route' => $this->route->getAction()
                 ]
             )
         );

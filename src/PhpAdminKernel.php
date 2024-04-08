@@ -46,7 +46,6 @@ class PhpAdminKernel implements IKernel
                 app()->setComponent('phpadmin', new PhpAdmin());
                 // require default dashboard menu settings
                 require_once __DIR__ . '/includes/defaults.php';
-                // end..
             } elseif (auth()->isGuest() && !in_array(url()->getPath(), auth_actions())) {
                 redirect(auth_url('login'));
             }

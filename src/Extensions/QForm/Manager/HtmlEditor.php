@@ -38,6 +38,7 @@ class HtmlEditor
     {
         bucket()->load('inited_html_editor_script', function () {
             mixer()
+                ->enque('css', 'h1,h2,h3,h4{margin-bottom: 10px;} p{margin-bottom: 20px;}')
                 ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/translations/' . (!empty(user()->meta('language')) ?  strtolower(user()->meta('language')) : 'en') . '.js')
                 ->enque('js', __DIR__ . '/../resources/vendor/ckeditor/classic.js')
                 ->enque('js', "let ck_media_upload_url = '" . phpadmin_prefix() . "media/ckeditor/';")

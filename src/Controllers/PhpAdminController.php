@@ -16,11 +16,11 @@ class PhpAdminController extends Controller
 {
     public function index()
     {
-        if (phpadmin_enabled('users')) {
+        if (phpadmin_enabled('users') && hasRights(['edit'])) {
             phpadmin()->addWidget(['icon' => 'user', 'text' => 'Total Users', 'count' => User::Cache()->load('total', fn () => User::total())]);
         }
 
-        if (phpadmin_enabled('pages')) {
+        if (phpadmin_enabled('pages')  && hasRights(['edit'])) {
             phpadmin()->addWidget(['icon' => 'file-blank', 'text' => 'Number of Pages', 'count' => Page::Cache()->load('total', fn () => Page::total())]);
         }
 

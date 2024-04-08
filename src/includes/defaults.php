@@ -66,7 +66,7 @@ $tools = array_filter([
     phpadmin_enabled('tools.reset') ? ['url' => phpadmin_prefix() . 'tools/factory-reset/', 'rights' => ['super'], 'title' => 'Factory Reset'] : null,
 ]);
 
-if (!empty($tools)) {
+if (!empty($tools) && hasRights(['edit'])) {
     phpadmin()->addSidebarMenuItem([
         'title'    => 'Tools',
         'url'      => phpadmin_prefix() . 'tools/',

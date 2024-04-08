@@ -80,7 +80,7 @@ if (phpadmin_enabled('users') && isSuperAdmin()) {
     );
 }
 
-if (phpadmin_enabled('pages')) {
+if (phpadmin_enabled('pages') && hasRights(['edit'])) {
     Bread::register(
         '/pages',
         Page::class,

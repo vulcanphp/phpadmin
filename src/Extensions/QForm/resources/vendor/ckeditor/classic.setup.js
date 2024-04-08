@@ -18,6 +18,8 @@ for (const ELEMENT of document.querySelectorAll('.html_minimal_editors')) {
     let items = [];
     if(ELEMENT.getAttribute('editor') === 'tiny'){
         items = ['bold','italic','link','bulletedList','|','highlight','fontSize','fontColor'];
+    }else if(ELEMENT.getAttribute('editor') === 'text'){
+        items = ['heading','|','bold','italic','link','bulletedList','insertImage','mediaEmbed','highlight','pageBreak'];
     }else{
         items = ['heading','|','bold','italic','link','blockQuote','underline','bulletedList','alignment','insertTable','insertImage','mediaEmbed','highlight','fontColor','fontSize','pageBreak', 'sourceEditing'];
     }

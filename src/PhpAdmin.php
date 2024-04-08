@@ -87,6 +87,20 @@ class PhpAdmin
         return $this->set('php_cm', array_merge($this->get('php_cm', []), [$id => $config]));
     }
 
+    public function addFilter(string $id, ...$callbacks): self
+    {
+        return $this->set('filters_' . $id, array_merge($this->get('filters_' . $id, []), $callbacks));
+    }
+
+    public function applyFilter(string $id, $data)
+    {
+        foreach ($this->get('filters_' . $id, []) as $callback) {
+            $data = call_user_func($callback, $data);
+        }
+
+        return $data;
+    }
+
     public function registerSiteMenu(array $menu): self
     {
         return $this->set('site_menus', array_merge($this->get('site_menus', []), [$menu]));
