@@ -113,7 +113,7 @@ if (phpadmin_enabled('pages') && hasRights(['edit'])) {
                 ['field' => 'addInput', 'name' => 'slug'],
                 ['field' => 'addTextarea', 'name' => 'excerpt'],
                 ['field' => 'addTextarea', 'name' => 'body', 'type' => 'hidden'],
-                ['field' => 'addSelect', 'name' => 'editor', 'options' => collect(Page::EDITORS)->mapWithKeys(fn ($name, $key) => [$key => translate($name)])->all()],
+                ['field' => 'addSelect', 'name' => 'editor', 'options' => Page::getBuilders()],
                 ['field' => 'addMedia', 'name' => 'thumbnail', 'description' => 'Choose & Upload Page Thumbnail']
             ] : []
         ]

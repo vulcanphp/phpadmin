@@ -22,7 +22,7 @@ class EditorController extends Controller
         }
 
         // Elementor Page Builder
-        if ($post->editor === 'builder') {
+        if (phpadmin_enabled('pageBuilder.PhpPage') && $post->editor === 'builder') {
 
             if (input('_phppage_action') == 'asset_manager') {
                 return $this->phppage_asset_manager();
@@ -44,7 +44,7 @@ class EditorController extends Controller
             } else {
                 return $builder->build();
             }
-        } elseif ($post->editor === 'editor') {
+        } elseif (phpadmin_enabled('pageBuilder.TextEditor') && $post->editor === 'editor') {
             if (request()->isMethod('post')) {
                 $post->load(['body' => input('content')]);
                 if ($post->save()) {
@@ -72,28 +72,30 @@ class EditorController extends Controller
         $post = PageElement::findOrFail(['slug' => $slug]);
 
         // render page builder content
-        if ($post->isHtml()) {
+        if ($post->isHtml() && phpadmin_enabled('pageBuilder.PhpPage')) {
             return (new PhpPage($post))
                 ->render();
+        } elseif (phpadmin_enabled('pageBuilder.TextEditor')) {
+            if (input('edit', 'false') === 'true' && function_exists('hasRights') && hasRights('edit')) {
+                HtmlEditor::enqueBalloon([
+                    'target'        => '.ck-content',
+                    'back_title'    => translate('Back To Editor'),
+                    'back_href'     => home_url(config('phpadmin.prefix', '/admin/') . 'editor/' . $post->getSlug()),
+                    'back_text'     => '&larr;',
+                    'save_title'    => translate('Save Changes'),
+                    'save_text'     => '&check;',
+                    'forward_title' => translate('Preview'),
+                    'forward_href'  => $post->getPermalink(),
+                    'forward_text'  => '&rarr;',
+                    'media_upload'  => home_url(config('phpadmin.prefix', '/admin/') . 'media/ckeditor'),
+                    'save_url'      => home_url(config('phpadmin.prefix', '/admin/') . 'editor/' . $post->getSlug()),
+                ]);
+            }
+
+            return view('page', ['post' => $post]);
         }
 
-        if (input('edit', 'false') === 'true' && function_exists('hasRights') && hasRights('edit')) {
-            HtmlEditor::enqueBalloon([
-                'target'        => '.ck-content',
-                'back_title'    => translate('Back To Editor'),
-                'back_href'     => home_url(config('phpadmin.prefix', '/admin/') . 'editor/' . $post->getSlug()),
-                'back_text'     => '&larr;',
-                'save_title'    => translate('Save Changes'),
-                'save_text'     => '&check;',
-                'forward_title' => translate('Preview'),
-                'forward_href'  => $post->getPermalink(),
-                'forward_text'  => '&rarr;',
-                'media_upload'  => home_url(config('phpadmin.prefix', '/admin/') . 'media/ckeditor'),
-                'save_url'      => home_url(config('phpadmin.prefix', '/admin/') . 'editor/' . $post->getSlug()),
-            ]);
-        }
-
-        return view('page', ['post' => $post]);
+        abort(404);
     }
 
     protected function phppage_asset_manager()

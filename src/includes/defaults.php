@@ -9,16 +9,17 @@ phpadmin()->registerRoutes(__DIR__ . '/routes.php');
 $setting_index = url()->is(phpadmin_prefix() . 'tools/settings');
 
 // register default settings
-if (phpadmin_enabled('settings.general') && isSuperAdmin()) {
-    phpadmin()->addSetting('general', is_current_setting('general') || $setting_index ? [
-        'title' => 'General Settings',
+if (phpadmin_enabled('settings.site') && isSuperAdmin()) {
+    phpadmin()->addSetting('site', is_current_setting('site') || $setting_index ? [
+        'title' => 'Site Settings',
         'callback' => [(new Settings)->load(setting()->Collect()->all()), 'SyncOptions'],
         'form_fields' => [
             ['field' => 'addInput', 'name' => 'site_title', 'label' => true],
             ['field' => 'addInput', 'name' => 'site_slogan', 'label' => true],
             ['field' => 'addTextarea', 'name' => 'site_description', 'label' => true],
             ['field' => 'addSelect', 'name' => 'site_language', 'options' => load_json('languages'), 'label' => true],
-            ['field' => 'addMedia', 'name' => 'site_image', 'description' => 'Set a Primary Image for your Site', 'label' => true],
+            ['field' => 'addMedia', 'name' => 'site_logo', 'description' => 'Set a Primary Logo for your Site', 'label' => true],
+            ['field' => 'addMedia', 'name' => 'site_image', 'description' => 'Set a Primary SEO Image for your Site', 'label' => true],
             ['field' => 'addMedia', 'name' => 'site_favicon', 'description' => 'Set a Primary Favicon for your Site', 'label' => true],
         ],
     ] : []);

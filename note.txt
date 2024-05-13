@@ -2,17 +2,19 @@
 'quicklinks',
 'users',
 'pages',
+'pageBuilder' => ['PhpPage', 'TextEditor'],
 'tools' => [
 	'cms',
 	'menu',
 	'filemanager',
 	'i18n',
 	'sitekit',
+	'sitekitSidebar',
 	'backup',
 	'reset',
 ],
 'settings' => [
-	'general',
+	'site',
 	'profile',
 	'analytics',
 ]

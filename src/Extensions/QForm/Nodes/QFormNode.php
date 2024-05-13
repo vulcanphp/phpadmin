@@ -54,7 +54,11 @@
                     <?php elseif ($input['node'] == 'PhpCmTable') : ?>
                         <?php
                         $attrs = $helper->ParseModelAttr($model, $input, $formAttr);
-                        echo VulcanPhp\PhpAdmin\Extensions\PhpCm\PhpCmTable::create($attrs['name'], $attrs['columns'], $attrs['value'])->place($attrs['fields'], $attrs['config'] ?? []);
+                        $table = VulcanPhp\PhpAdmin\Extensions\PhpCm\PhpCmTable::create($attrs['name'], $attrs['columns'], $attrs['value']);
+                        if (isset($attrs['groupWith'])) {
+                            $table->groupWith($attrs['groupWith']);
+                        }
+                        echo $table->place($attrs['fields'], $attrs['config'] ?? []);
                         ?>
                     <?php else : ?>
 

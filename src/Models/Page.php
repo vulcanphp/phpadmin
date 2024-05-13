@@ -99,4 +99,20 @@ class Page extends Model
                 ->get()
         );
     }
+
+
+    public static function getBuilders(): array
+    {
+        $builders = self::EDITORS;
+
+        if (!phpadmin_enabled('pageBuilder.PhpPage')) {
+            unset($builders['builder']);
+        }
+
+        if (!phpadmin_enabled('pageBuilder.TextEditor')) {
+            unset($builders['editor']);
+        }
+
+        return collect($builders)->mapWithKeys(fn ($name, $key) => [$key => translate($name)])->all();
+    }
 }
